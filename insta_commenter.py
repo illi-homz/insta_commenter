@@ -208,13 +208,13 @@ def start():
     if not control_args():
         return
     mode = int(sys.argv[-1])
-    if mode not in [1,2,3,4]:
+    if mode not in [0,1,2,3,4]:
         print('Не известный параметр')
         return
 
     db_params = settings.db_data
 
-    if mode == 4:
+    if mode == 0:
         answ = input('Обнулить всех пользователей, вы уверены? y/N: ')
         if answ == 'y':
             connect = db.connect_to_db(**db_params)
