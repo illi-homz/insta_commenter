@@ -2,7 +2,7 @@
 
 Необходимо иметь запущщенный **postgres** сервер
 
-Все настройки в в settings.py
+Все настройки в settings.py
 
 
 `python3 -m venv env`
