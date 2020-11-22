@@ -2,6 +2,7 @@ import time
 import os
 import sys
 from random import randint
+from random import randint
 
 from selenium import webdriver
 
@@ -22,7 +23,7 @@ class BaseClass:
 
     def init_db_and_user(self, *args, **kwargs):
         connect = db.connect_to_db(**kwargs)
-        self.Followers = db.Folowers(connect)
+        self.Followers = db.Base(connect, settings.table_name)
         if not self.Followers.check_on_table_created():
             self.Followers.create_table()
 
@@ -166,13 +167,23 @@ class Runner(Loginer, FolowersGetter, Commenter):
         if not self.folowers_url_list:
             self.get_users()
             if not self.folowers_url_list:
-                return False
-        self.browser.get(settings.post_url)
+                return
+
+        post_url = ''
+        if type(settings.post_url) == str:
+            post_url = settings.post_url
+        else:
+            if settings.post_url:
+                post_url = settings.post_url[randint(0, len(settings.post_url) - 1)]
+            else:
+                return
+
+        self.browser.get(post_url)
         time.sleep(3)
 
         if self.create_comment():
             return True
-        return False
+        return
 
     def set_all_is_not_completed(self):
         self.Followers.set_all_is_not_completed()
@@ -210,7 +221,7 @@ def start():
         browser.close()
     if mode == 2:
         runner.public_creator()
-        browser.close()
+        # browser.close()
     if mode == 3:
         while True:
             if not runner.public_creator():

@@ -58,10 +58,10 @@ class Users:
     def __del__(self):
         self.conn.close()
 
-
-class Folowers:
-    def __init__(self, conn):
+class Base:
+    def __init__(self, conn, table_name):
         self.conn = conn
+        self.table_name = table_name
 
     def check_on_table_created(self):
         cursor = self.conn.cursor()
@@ -73,65 +73,62 @@ class Folowers:
         tables = cursor.fetchone()
         if tables:
             for t in tables:
-                if 'folowers' in t: return True
+                if self.table_name in t:
+                    return True
         return False
 
     def create_table(self):
         cursor = self.conn.cursor()
-        cursor.execute('''CREATE TABLE folowers (
+        cursor.execute('''CREATE TABLE {} (
             id serial PRIMARY KEY,
             url VARCHAR(50) NOT NULL,
             completed boolean DEFAULT false
-        );''')
+        );'''.format(self.table_name))
         self.conn.commit()
 
     def add_folower(self, url):
         cursor = self.conn.cursor()
-        cursor.execute("""INSERT INTO folowers (url)
-            VALUES (%s);""", (url,)
-        )
+        cursor.execute("""INSERT INTO {} (url) VALUES (%s);""".format(self.table_name), (url,))
         self.conn.commit()
 
     def set_is_completed(self, follower):
         cursor = self.conn.cursor()
-        cursor.execute("UPDATE folowers SET completed = true WHERE url = %s;", (follower,))
+        cursor.execute("UPDATE {} SET completed = true WHERE url = %s;".format(self.table_name), (follower,))
         self.conn.commit()
 
     def set_all_is_not_completed(self):
         cursor = self.conn.cursor()
-        cursor.execute("UPDATE folowers SET completed = false;")
+        cursor.execute("UPDATE {} SET completed = false;".format(self.table_name))
         self.conn.commit()
 
     def get_all(self):
         cursor = self.conn.cursor()
-        cursor.execute("SELECT * FROM folowers;")
+        cursor.execute("SELECT * FROM {} ORDER BY id;".format(self.table_name))
         return cursor.fetchall()
 
     def get_data_from_column_param_user(self, column, param):
         cursor = self.conn.cursor()
-        cursor.execute("SELECT * FROM folowers WHERE {} = %s;".format(column), (param,))
+        cursor.execute("SELECT * FROM {} WHERE {} = %s ORDER BY id;".format(self.table_name, column), (param,))
         return cursor.fetchall()
 
     def check_follower_in_db(self, follower):
         cursor = self.conn.cursor()
-        cursor.execute("SELECT * FROM folowers WHERE url = %s;", (follower,))
-        # return bool(cursor.fetchone())
+        cursor.execute("SELECT * FROM {} WHERE url = %s;".format(self.table_name), (follower,))
         return cursor.fetchone()
 
     def check_is_completed(self, follower):
         cursor = self.conn.cursor()
-        cursor.execute("SELECT * FROM folowers WHERE url = %s AND completed = true;", (follower,))
+        cursor.execute("SELECT * FROM {} WHERE url = %s AND completed = true;".format(self.table_name), (follower,))
         return bool(cursor.fetchone())
-        # return cursor.fetchone()
 
     def drop_table(self):
         cursor = self.conn.cursor()
-        cursor.execute("DROP TABLE folowers CASCADE;")
+        cursor.execute("DROP TABLE {} CASCADE;".format(self.table_name))
         self.conn.commit()
 
     def del_all(self):
         cursor = self.conn.cursor()
-        cursor.execute("DELETE FROM folowers;")
+        cursor.execute("DELETE FROM {};".format(self.table_name))
         self.conn.commit()
 
     def __del__(self):
@@ -151,19 +148,10 @@ def drop_table(conn, table):
 
 if __name__ == '__main__':
     conn = connect_to_db(db='insta_poster', user='postgres', password='bad')
-
-    # users = Users(conn)
-    # print(users.get_id('Ilya'))
-    # id = users.check_on_table_created()
-    # print(id)
-    # users.create_table()
-    # users.drop_table()
-
-    folowers = Folowers(conn)
+    folowers = Base(conn, 'folowers')
     # print(folowers.get_data_from_column('completed', False))
     # print(folowers.get_not_completed())
     # folowers.add_folower(4, 'alla_gogaeva')
-    # print(folowers.get_all())
     # folowers.del_all()
     # print(folowers.get_not_completed())
     # folowers.drop_table()
@@ -173,4 +161,5 @@ if __name__ == '__main__':
     # folowers.set_all_is_not_completed()
     # print(folowers.check_is_completed('ellada_ioanidi.psy'))
 
-    # print(folowers.check_follower_in_db('tattoo_darya_vl'))
+    # print(folowers.get_all())
+    # print(folowers.check_follower_in_db('totrova_s'))
