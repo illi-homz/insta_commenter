@@ -140,6 +140,7 @@ class Commenter(BaseClass):
         self.folowers_url_list = self.folowers_url_list[settings.need_users_add:]
         if not self.folowers_url_list:
             return
+        # users = ['novusis', 'illi_homz']
         finally_text = settings.text
         for u in users:
             finally_text += f' @{u}'

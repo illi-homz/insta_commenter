@@ -1,4 +1,4 @@
-### INSTA_POSTER ###
+### INSTA_COMMENTER ###
 
 Необходимо иметь запущщенный **postgres** сервер
 
