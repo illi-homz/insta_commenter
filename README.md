@@ -5,7 +5,7 @@
 Все настройки в **settings.py**
 
 
-Установи firefox-geckodriver на свою тачку. В Ubuntu это:\
+Установи **firefox-geckodriver** на свою тачку. В Ubuntu это:\
 `sudo apt install firefox-geckodriver`
 
 `python3 -m venv env`
