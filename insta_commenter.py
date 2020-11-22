@@ -202,6 +202,9 @@ def start():
     if '-m' not in sys.argv or len(sys.argv) < 3:
         print('Error. Not -m parametr')
         return
+    if not settings.db_data['db'] or not settings.db_data['user'] or not settings.db_data['password']:
+        print('Error.not DB settings')
+        return
     if not control_args():
         return
     mode = int(sys.argv[-1])
@@ -210,6 +213,19 @@ def start():
         return
 
     db_params = settings.db_data
+
+    if mode == 4:
+        answ = input('Обнулить всех пользователей, вы уверены? y/N: ')
+        if answ == 'y':
+            connect = db.connect_to_db(**db_params)
+            Followers = db.Base(connect, settings.table_name)
+            if Followers.check_on_table_created():
+                Followers.set_all_is_not_completed()
+                print('All users marked as not competed')
+            else:
+                print(f'Table {settings.table_name} not found in db {settings.db_data["db"]}')
+        return
+
     browser = webdriver.Firefox()
     runner = Runner(browser)
     runner.init_db_and_user(**db_params)
@@ -228,10 +244,6 @@ def start():
                 break
             time.sleep(60*60*settings.hours)
         browser.close()
-    if mode == 4:
-        answ = input('Обнулить всех пользователей, вы уверены? y/N: ')
-        if answ == 'y':
-            runner.set_all_is_not_completed()
 
 if __name__ == '__main__':
     start()

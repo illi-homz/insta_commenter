@@ -161,5 +161,5 @@ if __name__ == '__main__':
     # folowers.set_all_is_not_completed()
     # print(folowers.check_is_completed('ellada_ioanidi.psy'))
 
-    # print(folowers.get_all())
+    print(folowers.get_all())
     # print(folowers.check_follower_in_db('totrova_s'))
