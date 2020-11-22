@@ -8,6 +8,7 @@ from selenium import webdriver
 
 import db
 import settings
+# import settings_copy as settings
 
 
 class BaseClass:
@@ -189,29 +190,35 @@ class Runner(Loginer, FolowersGetter, Commenter):
         self.Followers.set_all_is_not_completed()
 
 
-def control_args():
+def control_user_data():
     if not settings.login:
         print('Error. Not login')
-        return False
+        return
     if not settings.password:
         print('Error. Not password')
-        return False
+        return
     return True
 
-def start():
+def control_argv():
     if '-m' not in sys.argv or len(sys.argv) < 3:
         print('Error. Not -m parametr')
         return
+    return True
+
+def control_db_data():
     if not settings.db_data['db'] or not settings.db_data['user'] or not settings.db_data['password']:
         print('Error.not DB settings')
         return
-    if not control_args():
-        return
-    mode = int(sys.argv[-1])
-    if mode not in [0,1,2,3,4]:
-        print('Не известный параметр')
+    return True
+
+def start():
+    if not control_argv() or not control_db_data() or not control_user_data():
         return
 
+    mode = int(sys.argv[-1])
+    if mode not in [0,1,2,3]:
+        print('Не известный параметр')
+        return
     db_params = settings.db_data
 
     if mode == 0:
