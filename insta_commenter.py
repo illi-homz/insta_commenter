@@ -9,16 +9,6 @@ import db
 import settings
 
 
-def control_args():
-    if not settings.login:
-        print('Error. Not login')
-        return False
-    if not settings.password:
-        print('Error. Not password')
-        return False
-    return True
-
-
 class BaseClass:
     def __init__(self, browser):
         self.BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -179,6 +169,15 @@ class Runner(Loginer, FolowersGetter, Commenter):
         self.create_comment()
         time.sleep(2)
 
+
+def control_args():
+    if not settings.login:
+        print('Error. Not login')
+        return False
+    if not settings.password:
+        print('Error. Not password')
+        return False
+    return True
 
 def start():
     if '-m' not in sys.argv or len(sys.argv) < 3:
