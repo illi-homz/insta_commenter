@@ -14,6 +14,7 @@ class BaseClass:
         self.BASE_DIR = os.path.dirname(os.path.abspath(__file__))
         self.image_path = self.BASE_DIR + '/logo.jpg'
         self.folowers_url_list = []
+        # self.folowers_url_list = ['novusis', 'illi_homz']
         self.folowers_count = 0
         self.complete_folowers_list = []
         self.added_to_base = 0
@@ -35,20 +36,16 @@ class Loginer(BaseClass):
         # Вход в аккаунт
         self.browser.get('https://instagram.com/accounts/login')
         time.sleep(4)
-
         input_fields = self.browser.find_elements_by_class_name('_2hvTZ')
         submit_button = self.browser.find_element_by_class_name('L3NKy')
-
         input_fields[0].send_keys(settings.login)
         input_fields[1].send_keys(settings.password)
         submit_button.click()
-
         time.sleep(4)
-
         errors = self.browser.find_elements_by_css_selector('#error_message')
         if errors:
             print('bad login')
-            self.browser.close()
+            return
 
 
 class FolowersGetter(BaseClass):
@@ -58,12 +55,12 @@ class FolowersGetter(BaseClass):
     def no_complet_controll(self):
         no_complete_urls = self.Followers.get_data_from_column_param_user('completed', False)
         if no_complete_urls:
-            return [{'id': url[0], 'url': url[1]} for url in no_complete_urls]
+            return [url[1] for url in no_complete_urls]
         return []
 
     def get_count_folowers(self):
         link_on_folowers = self.browser.find_elements_by_class_name('g47SY ')
-        return int(link_on_folowers[1].get_attribute('title').replace(' ', '')) - 1
+        return int(link_on_folowers[1].get_attribute('title').replace(' ', ''))
 
     def open_list_folowers_and_get_followers_win(self):
         # Открываю окно с подписчиками
@@ -72,7 +69,6 @@ class FolowersGetter(BaseClass):
         return self.browser.find_element_by_class_name('isgrP')
 
     def scroll(self, heigth=1):
-        # print('scroll')
         self.browser.execute_script(f'arguments[0].scrollTop = arguments[0].scrollHeight/{heigth}', self.followers_win)
 
     def get_folowers_urls(self):
@@ -82,37 +78,38 @@ class FolowersGetter(BaseClass):
             folowers = [f.get_attribute('href').split('/')[-2] for f in folowers]
             users_list = []
             for folower in folowers:
-                if folower in self.folowers_url_list:
-                    continue
-
-                # complete control
-                if self.Followers.check_follower_in_db(folower):
-                    if self.Followers.check_is_completed(folower):
+                check = self.Followers.check_follower_in_db(folower)
+                if check:
+                    if check[2]: # is completed
                         if folower not in self.complete_folowers_list:
                             self.complete_folowers_list.append(folower)
-                        continue
+                            continue
                     users_list.append(folower)
-                    continue
 
                 if folower not in users_list:
-                    users_list.append(folower)
                     self.Followers.add_folower(folower)
                     self.added_to_base += 1
+                    users_list.append(folower)
+            if not users_list:
+                print('Похоже что все пользователи уже в базе')
+                return []
             return users_list
         except:
-            print('Не могу найти пользователей')
             return []
 
     def scroll_list_and_get_folowers_urls(self):
         heigth_list = [6, 4, 3, 2]
-        num_scroll = 0
         map(self.scroll, heigth_list)
+        num_scroll = 0
 
         while len(self.folowers_url_list) + len(self.complete_folowers_list) < self.folowers_count:
             num_scroll += 1
             self.scroll()
-            if num_scroll % 2 == 0:
+            if num_scroll % 10 == 0:
                 self.folowers_url_list += self.get_folowers_urls()
+                if not self.folowers_url_list:
+                    print('Не могу найти пользователей')
+                    break
                 print('Всего: {0} Получил для обработки: {1} Добавлено в базу: {2} В пропуске: {3}'.format(
                     self.folowers_count,
                     len(self.folowers_url_list),
@@ -128,13 +125,15 @@ class Commenter(BaseClass):
     def create_comment(self):
         users = self.folowers_url_list[:settings.need_users_add]
         self.folowers_url_list = self.folowers_url_list[settings.need_users_add:]
-        if not self.folowers_url_list:
+        if not users:
             print('Все пользователи обработаны')
             return False
-        # users = ['novusis', 'illi_homz']
         finally_text = settings.text
         for u in users:
+            if u in self.complete_folowers_list:
+                continue
             finally_text += f' @{u}'
+            self.complete_folowers_list.append(u)
             self.Followers.set_is_completed(u)
         comment_field = self.browser.find_element_by_class_name('Ypffh')
         comment_field.click()
@@ -167,12 +166,13 @@ class Runner(Loginer, FolowersGetter, Commenter):
         if not self.folowers_url_list:
             self.get_users()
             if not self.folowers_url_list:
-                return
+                return False
         self.browser.get(settings.post_url)
         time.sleep(3)
-        if not self.create_comment():
-            return False
-        time.sleep(2)
+
+        if self.create_comment():
+            return True
+        return False
 
 
 def control_args():
@@ -191,6 +191,9 @@ def start():
     if not control_args():
         return
     mode = int(sys.argv[-1])
+    if mode not in [1,2,3]:
+        print('Не известный параметр')
+        return
 
     db_params = settings.db_data
     browser = webdriver.Firefox()

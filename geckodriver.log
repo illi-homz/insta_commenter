@@ -405,3 +405,51 @@ console.warn: SearchSettings: "get: No settings file exists, new profile?" (new 
 1606038160085	Marionette	INFO	Listening on port 43047
 1606038160189	Marionette	WARN	TLS certificate errors will be ignored for this session
 1606038162080	Marionette	INFO	Stopped listening on port 43047
+1606039741704	geckodriver	INFO	Listening on 127.0.0.1:57097
+1606039741707	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofiled268NC"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1606039743245	Marionette	INFO	Listening on port 37361
+1606039743330	Marionette	WARN	TLS certificate errors will be ignored for this session
+1606039759077	Marionette	WARN	TimedPromise timed out after 500 ms: stacktrace:
+TimedPromise/<@chrome://marionette/content/sync.js:228:19
+TimedPromise@chrome://marionette/content/sync.js:213:10
+interaction.flushEventLoop@chrome://marionette/content/interaction.js:418:10
+webdriverClickElement@chrome://marionette/content/interaction.js:179:31
+1606039764373	Marionette	INFO	Stopped listening on port 37361
+1606039874214	geckodriver	INFO	Listening on 127.0.0.1:54325
+1606039874217	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofileerLAQg"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1606039875832	Marionette	INFO	Listening on port 42911
+1606039875991	Marionette	WARN	TLS certificate errors will be ignored for this session
+1606039891290	Marionette	INFO	Stopped listening on port 42911
+1606040001858	geckodriver	INFO	Listening on 127.0.0.1:41447
+1606040001861	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofileSL2E2p"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1606040003397	Marionette	INFO	Listening on port 34551
+1606040003484	Marionette	WARN	TLS certificate errors will be ignored for this session
+1606040019287	Marionette	WARN	TimedPromise timed out after 500 ms: stacktrace:
+TimedPromise/<@chrome://marionette/content/sync.js:228:19
+TimedPromise@chrome://marionette/content/sync.js:213:10
+interaction.flushEventLoop@chrome://marionette/content/interaction.js:418:10
+webdriverClickElement@chrome://marionette/content/interaction.js:179:31
+1606040024002	Marionette	INFO	Stopped listening on port 34551
+1606042504762	geckodriver	INFO	Listening on 127.0.0.1:38875
+1606042504765	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile1h0XJn"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1606042506449	Marionette	INFO	Listening on port 35211
+1606042506532	Marionette	WARN	TLS certificate errors will be ignored for this session
+1606042513476	Marionette	INFO	Stopped listening on port 35211
+1606042548803	geckodriver	INFO	Listening on 127.0.0.1:44717
+1606042548806	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofiley9eAZr"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1606042550341	Marionette	INFO	Listening on port 41473
+1606042550442	Marionette	WARN	TLS certificate errors will be ignored for this session
+1606042552010	Marionette	INFO	Stopped listening on port 41473
+1606042646867	geckodriver	INFO	Listening on 127.0.0.1:54039
+1606042646870	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofiletYVaOm"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1606042648564	Marionette	INFO	Listening on port 35683
+1606042648591	Marionette	WARN	TLS certificate errors will be ignored for this session
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.

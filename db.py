@@ -110,12 +110,14 @@ class Folowers:
     def check_follower_in_db(self, follower):
         cursor = self.conn.cursor()
         cursor.execute("SELECT * FROM folowers WHERE url = %s;", (follower,))
-        return bool(cursor.fetchone())
+        # return bool(cursor.fetchone())
+        return cursor.fetchone()
 
     def check_is_completed(self, follower):
         cursor = self.conn.cursor()
         cursor.execute("SELECT * FROM folowers WHERE url = %s AND completed = true;", (follower,))
         return bool(cursor.fetchone())
+        # return cursor.fetchone()
 
     def drop_table(self):
         cursor = self.conn.cursor()
@@ -156,7 +158,7 @@ if __name__ == '__main__':
     # print(folowers.get_data_from_column('completed', False))
     # print(folowers.get_not_completed())
     # folowers.add_folower(4, 'alla_gogaeva')
-    print(folowers.get_all())
+    # print(folowers.get_all())
     # folowers.del_all()
     # print(folowers.get_not_completed())
     # folowers.drop_table()
@@ -164,4 +166,4 @@ if __name__ == '__main__':
     # id = folowers.check_on_table_created()
     # print(id)
 
-    # print(bool(folowers.check_follower_in_db('alla_gogaeva', 4)))
+    print(folowers.check_follower_in_db('tattoo_darya_vl'))
