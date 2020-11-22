@@ -180,26 +180,31 @@ class Runner(Loginer, FolowersGetter, Commenter):
         time.sleep(2)
 
 
-if __name__ == '__main__':
-    browser = webdriver.Firefox()
+def start():
+    if '-m' not in sys.argv or len(sys.argv) < 3:
+        print('Error. Not -m parametr')
+        return
+    if not control_args():
+        return
+    mode = int(sys.argv[-1])
+
     db_params = settings.db_data
-    if control_args():
-        if '-m' not in sys.argv:
-            raise Exception('Error. Not -m parametr')
-        mode = int(sys.argv[-1])
+    browser = webdriver.Firefox()
+    runner = Runner(browser)
+    runner.init_db_and_user(**db_params)
 
-        runner = Runner(browser)
-        runner.init_db_and_user(**db_params)
-
-        if mode == 1:
-            if not settings.target_url:
-                raise Exception('Error. Select mode 0, but not target_url')
-            runner.get_users()
-            browser.close()
-        if mode == 2:
+    if mode == 1:
+        if not settings.target_url:
+            raise Exception('Error. Select mode 0, but not target_url')
+        runner.get_users()
+        browser.close()
+    if mode == 2:
+        runner.public_creator()
+        browser.close()
+    if mode == 3:
+        while True:
             runner.public_creator()
-            browser.close()
-        if mode == 3:
-            while True:
-                runner.public_creator()
-                time.sleep(60*60*settings.hours)
+            time.sleep(60*60*settings.hours)
+
+if __name__ == '__main__':
+    start()
