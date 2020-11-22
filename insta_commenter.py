@@ -136,11 +136,10 @@ class Commenter(BaseClass):
         super().__init__(browser)
 
     def create_comment(self):
-        # users = self.folowers_url_list[:settings.need_users_add]
-        # self.folowers_url_list = self.folowers_url_list[settings.need_users_add:]
-        # if not self.folowers_url_list:
-        #     return
-        users = ['novusis', 'illi_homz']
+        users = self.folowers_url_list[:settings.need_users_add]
+        self.folowers_url_list = self.folowers_url_list[settings.need_users_add:]
+        if not self.folowers_url_list:
+            return
         finally_text = settings.text
         for u in users:
             finally_text += f' @{u}'
