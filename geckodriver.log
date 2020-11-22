@@ -453,3 +453,41 @@ console.warn: SearchSettings: "get: No settings file exists, new profile?" (new 
 Exiting due to channel error.
 Exiting due to channel error.
 Exiting due to channel error.
+1606044003708	geckodriver	INFO	Listening on 127.0.0.1:35067
+1606044003711	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofilesWB7aw"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1606044005454	Marionette	INFO	Listening on port 36237
+1606044005559	Marionette	WARN	TLS certificate errors will be ignored for this session
+1606044021978	Marionette	WARN	TimedPromise timed out after 500 ms: stacktrace:
+TimedPromise/<@chrome://marionette/content/sync.js:228:19
+TimedPromise@chrome://marionette/content/sync.js:213:10
+interaction.flushEventLoop@chrome://marionette/content/interaction.js:418:10
+webdriverClickElement@chrome://marionette/content/interaction.js:179:31
+1606044024977	Marionette	INFO	Stopped listening on port 36237
+1606044186749	geckodriver	INFO	Listening on 127.0.0.1:50265
+1606044186751	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofilepn3hjP"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1606044188418	Marionette	INFO	Listening on port 38235
+1606044188472	Marionette	WARN	TLS certificate errors will be ignored for this session
+1606044204236	Marionette	WARN	TimedPromise timed out after 500 ms: stacktrace:
+TimedPromise/<@chrome://marionette/content/sync.js:228:19
+TimedPromise@chrome://marionette/content/sync.js:213:10
+interaction.flushEventLoop@chrome://marionette/content/interaction.js:418:10
+webdriverClickElement@chrome://marionette/content/interaction.js:179:31
+1606044225297	Marionette	INFO	Stopped listening on port 38235
+1606044241653	geckodriver	INFO	Listening on 127.0.0.1:45305
+1606044241656	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile0kmneB"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1606044243454	Marionette	INFO	Listening on port 42203
+1606044243476	Marionette	WARN	TLS certificate errors will be ignored for this session
+1606044259547	Marionette	WARN	TimedPromise timed out after 500 ms: stacktrace:
+TimedPromise/<@chrome://marionette/content/sync.js:228:19
+TimedPromise@chrome://marionette/content/sync.js:213:10
+interaction.flushEventLoop@chrome://marionette/content/interaction.js:418:10
+webdriverClickElement@chrome://marionette/content/interaction.js:179:31
+1606044264269	Marionette	INFO	Stopped listening on port 42203
+IPDL protocol error: Handler returned error code!
+
+###!!! [Parent][DispatchAsyncMessage] Error: PLayerTransaction::Msg_ReleaseLayer Processing error: message was deserialized, but the handler returned false (indicating failure)
+
+JavaScript error: https://www.instagram.com/static/bundles/es6/ConsumerLibCommons.js/d7e6aac102d8.js, line 212: NS_ERROR_NOT_INITIALIZED: 

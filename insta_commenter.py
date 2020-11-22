@@ -14,7 +14,6 @@ class BaseClass:
         self.BASE_DIR = os.path.dirname(os.path.abspath(__file__))
         self.image_path = self.BASE_DIR + '/logo.jpg'
         self.folowers_url_list = []
-        # self.folowers_url_list = ['novusis', 'illi_homz']
         self.folowers_count = 0
         self.complete_folowers_list = []
         self.added_to_base = 0
@@ -140,9 +139,10 @@ class Commenter(BaseClass):
         time.sleep(1)
         comment_field = self.browser.find_element_by_class_name('focus-visible')
         comment_field.send_keys(finally_text)
-        time.sleep(1)
+        time.sleep(2)
         btn_add_comment = self.browser.find_element_by_class_name('y3zKF')
         btn_add_comment.click()
+        time.sleep(1)
         print(f'Добавил пользователей: {users}')
         return True
 
@@ -174,6 +174,9 @@ class Runner(Loginer, FolowersGetter, Commenter):
             return True
         return False
 
+    def set_all_is_not_completed(self):
+        self.Followers.set_all_is_not_completed()
+
 
 def control_args():
     if not settings.login:
@@ -191,7 +194,7 @@ def start():
     if not control_args():
         return
     mode = int(sys.argv[-1])
-    if mode not in [1,2,3]:
+    if mode not in [1,2,3,4]:
         print('Не известный параметр')
         return
 
@@ -214,6 +217,10 @@ def start():
                 break
             time.sleep(60*60*settings.hours)
         browser.close()
+    if mode == 4:
+        answ = input('Обнулить всех пользователей, вы уверены? y/N: ')
+        if answ == 'y':
+            runner.set_all_is_not_completed()
 
 if __name__ == '__main__':
     start()

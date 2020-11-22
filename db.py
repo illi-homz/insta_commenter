@@ -97,6 +97,11 @@ class Folowers:
         cursor.execute("UPDATE folowers SET completed = true WHERE url = %s;", (follower,))
         self.conn.commit()
 
+    def set_all_is_not_completed(self):
+        cursor = self.conn.cursor()
+        cursor.execute("UPDATE folowers SET completed = false;")
+        self.conn.commit()
+
     def get_all(self):
         cursor = self.conn.cursor()
         cursor.execute("SELECT * FROM folowers;")
@@ -165,5 +170,7 @@ if __name__ == '__main__':
     # folowers.create_table()
     # id = folowers.check_on_table_created()
     # print(id)
+    # folowers.set_all_is_not_completed()
+    # print(folowers.check_is_completed('ellada_ioanidi.psy'))
 
-    print(folowers.check_follower_in_db('tattoo_darya_vl'))
+    # print(folowers.check_follower_in_db('tattoo_darya_vl'))
