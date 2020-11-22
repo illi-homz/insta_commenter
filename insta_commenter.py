@@ -134,6 +134,7 @@ class Commenter(BaseClass):
         finally_text = settings.text
         for u in users:
             finally_text += f' @{u}'
+            self.Followers.set_is_completed(u)
         comment_field = self.browser.find_element_by_class_name('Ypffh')
         comment_field.click()
         time.sleep(1)
@@ -142,6 +143,7 @@ class Commenter(BaseClass):
         time.sleep(1)
         btn_add_comment = self.browser.find_element_by_class_name('y3zKF')
         btn_add_comment.click()
+        print(f'Добавил в комментарий: {users}')
 
 
 class Runner(Loginer, FolowersGetter, Commenter):
