@@ -129,7 +129,8 @@ class Commenter(BaseClass):
         users = self.folowers_url_list[:settings.need_users_add]
         self.folowers_url_list = self.folowers_url_list[settings.need_users_add:]
         if not self.folowers_url_list:
-            return
+            print('Все пользователи обработаны')
+            return False
         # users = ['novusis', 'illi_homz']
         finally_text = settings.text
         for u in users:
@@ -143,7 +144,8 @@ class Commenter(BaseClass):
         time.sleep(1)
         btn_add_comment = self.browser.find_element_by_class_name('y3zKF')
         btn_add_comment.click()
-        print(f'Добавил в комментарий: {users}')
+        print(f'Добавил пользователей: {users}')
+        return True
 
 
 class Runner(Loginer, FolowersGetter, Commenter):
@@ -168,7 +170,8 @@ class Runner(Loginer, FolowersGetter, Commenter):
                 return
         self.browser.get(settings.post_url)
         time.sleep(3)
-        self.create_comment()
+        if not self.create_comment():
+            return False
         time.sleep(2)
 
 
@@ -204,8 +207,10 @@ def start():
         browser.close()
     if mode == 3:
         while True:
-            runner.public_creator()
+            if not runner.public_creator():
+                break
             time.sleep(60*60*settings.hours)
+        browser.close()
 
 if __name__ == '__main__':
     start()
