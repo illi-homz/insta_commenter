@@ -58,8 +58,11 @@ class FolowersGetter(BaseClass):
         return []
 
     def get_count_folowers(self):
-        link_on_folowers = self.browser.find_elements_by_class_name('g47SY ')
-        return int(link_on_folowers[1].get_attribute('title').replace(' ', ''))
+        link_on_folowers = self.browser.find_elements_by_class_name('g47SY')
+        title = link_on_folowers[1].get_attribute('title')
+        if 'млн' in title:
+            return float(title.split('м')[0].replace(',', '.')) * 1000000
+        return int(title.replace(' ', ''))
 
     def open_list_folowers_and_get_followers_win(self):
         # Открываю окно с подписчиками
@@ -152,13 +155,23 @@ class Runner(Loginer, FolowersGetter, Commenter):
         super().__init__(browser)
 
     def get_users(self):
+        def getter():
+            self.folowers_count = self.get_count_folowers() # для всех подписчиков
+            print(f'Подписчиков на странице - {self.folowers_count}')
+            self.followers_win = self.open_list_folowers_and_get_followers_win()
+            self.scroll_list_and_get_folowers_urls()
         self.login()
-        self.browser.get(settings.target_url)
-        time.sleep(3)
-        self.folowers_count = self.get_count_folowers() # для всех подписчиков
-        print(f'Подписчиков на странице - {self.folowers_count}')
-        self.followers_win = self.open_list_folowers_and_get_followers_win()
-        self.scroll_list_and_get_folowers_urls()
+
+        if (type(settings.target_url) == str):
+            self.browser.get(settings.target_url)
+            time.sleep(3)
+            getter()
+        elif type(settings.target_url) == list:
+            for url in settings.target_url:
+                self.browser.get(settings.target_url)
+                time.sleep(3)
+                getter()
+
 
     def public_creator(self):
         self.login()
