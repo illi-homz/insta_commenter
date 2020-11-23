@@ -1,20 +1,20 @@
-login = 'illi_homz'
-password = 'badbalance166998'
-target_url = 'https://instagram.com/smile_shugar' # страница с пользователями
+login = ''
+password = ''
+target_url = '' # страница с пользователями
 
-post_url = 'https://www.instagram.com/p/CFSAKpaoVy9/' # пост на фейковой странице
-# post_url = ['https://www.instagram.com/p/CFSAKpaoVy9/'] # или списком публикаций
+post_url = '' # пост на фейковой странице
+# post_url = [''] # или списком публикаций
 
-main_page = 'novusis' # рекламируемая страница
+main_page = '' # рекламируемая страница
 need_users_add = 4 # по сколько пользователей добавлять
 hours = 1 # интервал, в часах
 
 browser='chrome' # or rirefox
 
 db_data = {
-    'db': 'insta_poster',
+    'db': '',
     'user': 'postgres',
-    'password': 'bad'
+    'password': ''
 }
 table_name = 'folowers'
 
