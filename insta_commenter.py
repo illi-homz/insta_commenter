@@ -60,8 +60,8 @@ class FolowersGetter(BaseClass):
     def get_count_folowers(self):
         link_on_folowers = self.browser.find_elements_by_class_name('g47SY')
         title = link_on_folowers[1].get_attribute('title')
-        if 'млн' in title:
-            return float(title.split('м')[0].replace(',', '.')) * 1000000
+        # if 'млн' in title:
+        #     return float(title.split('м')[0].replace(',', '.')) * 1000000
         return int(title.replace(' ', ''))
 
     def open_list_folowers_and_get_followers_win(self):
@@ -108,7 +108,7 @@ class FolowersGetter(BaseClass):
             num_scroll += 1
             self.scroll()
             if num_scroll % 10 == 0:
-                self.folowers_url_list += self.get_folowers_urls()
+                self.folowers_url_list = self.get_folowers_urls()
                 if not self.folowers_url_list:
                     print('Не могу найти пользователей')
                     break
@@ -116,7 +116,8 @@ class FolowersGetter(BaseClass):
                     self.folowers_count,
                     len(self.folowers_url_list),
                     self.added_to_base,
-                    len(self.folowers_url_list) + len(self.complete_folowers_list) - self.added_to_base
+                    # len(self.folowers_url_list) + len(self.complete_folowers_list) - self.added_to_base
+                    len(self.complete_folowers_list)
                 ))
             time.sleep(randint(5, 20))
 
@@ -263,7 +264,7 @@ def start():
             if not runner.public_creator():
                 break
             time.sleep(60*60*settings.hours)
-        browser.close()
+        # browser.close()
 
 if __name__ == '__main__':
     start()

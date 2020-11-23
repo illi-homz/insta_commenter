@@ -1,20 +1,24 @@
-login = ''
-password = ''
-target_url = '' # страница с пользователями
+login = 'illi_homz'
+password = 'badbalance166998'
+target_url = 'https://www.instagram.com/igromania/' # страница с пользователями
+# target_url = [ # или списком публикаций
+#     'https://www.instagram.com/matryoshka_games/',
+#     'https://www.instagram.com/igra4ch/'
+# ]
 
-post_url = '' # пост на фейковой странице
-# post_url = [''] # или списком публикаций
+post_url = 'https://www.instagram.com/p/CFSAKpaoVy9/' # пост на фейковой странице
+# post_url = ['https://www.instagram.com/p/CFSAKpaoVy9/'] # или списком публикаций
 
-main_page = '' # рекламируемая страница
+main_page = 'novusis' # рекламируемая страница
 need_users_add = 4 # по сколько пользователей добавлять
 hours = 1 # интервал, в часах
 
 browser='chrome' # or rirefox
 
 db_data = {
-    'db': '',
+    'db': 'insta_poster',
     'user': 'postgres',
-    'password': ''
+    'password': 'bad'
 }
 table_name = 'folowers'
 

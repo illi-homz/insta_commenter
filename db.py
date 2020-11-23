@@ -81,7 +81,7 @@ class Base:
         cursor = self.conn.cursor()
         cursor.execute('''CREATE TABLE {} (
             id serial PRIMARY KEY,
-            url VARCHAR(50) NOT NULL,
+            url VARCHAR(50) UNIQUE,
             completed boolean DEFAULT false
         );'''.format(self.table_name))
         self.conn.commit()
