@@ -4,8 +4,8 @@
 
 Все настройки в **settings.py**
 
-
-Установи **firefox-geckodriver** на свою тачку. В Ubuntu это:\
+По умолчанию работает с **chrome**.\
+Если нужен с firefox установи **firefox-geckodriver** на свою тачку. В Ubuntu это:\
 `sudo apt install firefox-geckodriver`
 
 `python3 -m venv env`
