@@ -147,8 +147,9 @@ def drop_table(conn, table):
 
 
 if __name__ == '__main__':
+    import settings
     conn = connect_to_db(db='insta_poster', user='postgres', password='bad')
-    folowers = Base(conn, 'folowers')
+    folowers = Base(conn, settings.table_name)
     # print(folowers.get_data_from_column('completed', False))
     # print(folowers.get_not_completed())
     # folowers.add_folower(4, 'alla_gogaeva')
@@ -161,5 +162,5 @@ if __name__ == '__main__':
     # folowers.set_all_is_not_completed()
     # print(folowers.check_is_completed('ellada_ioanidi.psy'))
 
-    print(folowers.get_all())
+    # print(len(folowers.get_all()))
     # print(folowers.check_follower_in_db('totrova_s'))
