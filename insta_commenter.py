@@ -13,8 +13,6 @@ import settings
 
 class BaseClass:
     def __init__(self, browser):
-        self.BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-        self.image_path = self.BASE_DIR + '/logo.jpg'
         self.folowers_url_list = []
         self.folowers_count = 0
         self.complete_folowers_list = []
@@ -233,7 +231,9 @@ def start():
                 print(f'Table {settings.table_name} not found in db {settings.db_data["db"]}')
         return
 
-    browser = webdriver.Firefox()
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    # browser = webdriver.Firefox()
+    browser = webdriver.Chrome(BASE_DIR + '/chromedriver') if settings.browser == 'chrome' else webdriver.Firefox()
     runner = Runner(browser)
     runner.init_db_and_user(**db_params)
 
