@@ -52,7 +52,7 @@ class FolowersGetter(BaseClass):
         super().__init__(browser)
 
     def no_complet_controll(self):
-        no_complete_urls = self.Followers.get_data_from_column_param_user('completed', False)
+        no_complete_urls = self.Followers.get_data_from_column_param('completed', False)
         if no_complete_urls:
             return [url[1] for url in no_complete_urls]
         return []
@@ -86,9 +86,9 @@ class FolowersGetter(BaseClass):
                         if folower not in self.complete_folowers_list:
                             self.complete_folowers_list.append(folower)
                             continue
-                    users_list.append(folower)
-
-                if folower not in users_list:
+                    continue
+                    # users_list.append(folower)
+                else:
                     self.Followers.add_folower(folower)
                     self.added_to_base += 1
                     users_list.append(folower)
@@ -108,7 +108,7 @@ class FolowersGetter(BaseClass):
             num_scroll += 1
             self.scroll()
             if num_scroll % 10 == 0:
-                self.folowers_url_list = self.get_folowers_urls()
+                self.folowers_url_list += self.get_folowers_urls()
                 if not self.folowers_url_list:
                     print('Не могу найти пользователей')
                     break
@@ -181,6 +181,7 @@ class Runner(Loginer, FolowersGetter, Commenter):
             self.get_users()
             if not self.folowers_url_list:
                 return
+            self.folowers_url_list = self.no_complet_controll()
 
         post_url = ''
         if type(settings.post_url) == str:
@@ -200,6 +201,9 @@ class Runner(Loginer, FolowersGetter, Commenter):
 
     def set_all_is_not_completed(self):
         self.Followers.set_all_is_not_completed()
+
+    def export_data(self):
+        self.Followers.export_data()
 
 
 def control_user_data():
@@ -223,12 +227,17 @@ def control_db_data():
         return
     return True
 
+def db_connecter(**kwargs):
+    connect = db.connect_to_db(**kwargs)
+    return db.Base(connect, settings.table_name)
+
+
 def start():
     if not control_argv() or not control_db_data() or not control_user_data():
         return
 
     mode = int(sys.argv[-1])
-    if mode not in [0,1,2,3]:
+    if mode not in [0,1,2,3,4,5]:
         print('Не известный параметр')
         return
     db_params = settings.db_data
@@ -236,14 +245,22 @@ def start():
     if mode == 0:
         answ = input('Обнулить всех пользователей, вы уверены? y/N: ')
         if answ == 'y':
-            connect = db.connect_to_db(**db_params)
-            Followers = db.Base(connect, settings.table_name)
-            if Followers.check_on_table_created():
-                Followers.set_all_is_not_completed()
+            DB = db_connecter(**db_params)
+            if DB.check_on_table_created():
+                DB.set_all_is_not_completed()
                 print('All users marked as not competed')
             else:
                 print(f'Table {settings.table_name} not found in db {settings.db_data["db"]}')
         return
+    if mode == 4:
+        DB = db_connecter(**db_params)
+        DB.export_data()
+        return
+    if mode == 5:
+        DB = db_connecter(**db_params)
+        DB.import_data()
+        return
+
 
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     # browser = webdriver.Firefox()
