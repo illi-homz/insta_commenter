@@ -229,7 +229,10 @@ def control_db_data():
 
 def db_connecter(**kwargs):
     connect = db.connect_to_db(**kwargs)
-    return db.Base(connect, settings.table_name)
+    DB = db.Base(connect, settings.table_name)
+    if not DB.check_on_table_created():
+        DB.create_table()
+    return DB
 
 
 def start():
