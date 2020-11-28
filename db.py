@@ -70,7 +70,7 @@ class Base:
             FROM information_schema.tables
             WHERE (table_schema = 'public') ORDER BY table_schema, table_name;
         """)
-        tables = cursor.fetchone()
+        tables = self.cursor.fetchone()
         if tables:
             for t in tables:
                 if self.table_name in t:

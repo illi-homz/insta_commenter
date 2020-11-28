@@ -7,8 +7,8 @@ from random import randint
 from selenium import webdriver
 
 import db
-import settings
-# import settings_copy as settings
+# import settings
+import settings_copy as settings
 
 
 class BaseClass:
